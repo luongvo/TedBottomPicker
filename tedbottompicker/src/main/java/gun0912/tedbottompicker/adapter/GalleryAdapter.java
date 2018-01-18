@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.io.File;
 import java.lang.annotation.Retention;
@@ -25,6 +26,8 @@ import gun0912.tedbottompicker.R;
 import gun0912.tedbottompicker.TedBottomPicker;
 import gun0912.tedbottompicker.view.TedSquareFrameLayout;
 import gun0912.tedbottompicker.view.TedSquareImageView;
+
+import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
 /**
  * Created by TedPark on 2016. 8. 30..
@@ -71,8 +74,6 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.GalleryV
             }
 
 
-
-
             cursor = context.getApplicationContext().getContentResolver().query(uri, columns, null, null, orderBy);
             //imageCursor = sContext.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, columns, null, null, orderBy);
 
@@ -85,7 +86,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.GalleryV
                     String dataIndex;
                     if (builder.mediaType == TedBottomPicker.Builder.MediaType.IMAGE) {
                         dataIndex = MediaStore.Images.Media.DATA;
-                    }else{
+                    } else {
                         dataIndex = MediaStore.Video.VideoColumns.DATA;
                     }
                     String imageLocation = cursor.getString(cursor.getColumnIndex(dataIndex));
@@ -161,11 +162,11 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.GalleryV
             if (builder.imageProvider == null) {
                 Glide.with(context)
                         .load(uri)
-                        .thumbnail(0.1f)
-                        .dontAnimate()
-                        .centerCrop()
-                        .placeholder(R.drawable.ic_gallery)
-                        .error(R.drawable.img_error)
+                        .apply(new RequestOptions()
+                                .error(R.drawable.img_error)
+                                .centerCrop()
+                                .dontAnimate())
+                        .transition(withCrossFade())
                         .into(holder.iv_thumbnail);
             } else {
                 builder.imageProvider.onProvideImage(holder.iv_thumbnail, uri);
