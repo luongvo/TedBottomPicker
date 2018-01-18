@@ -43,6 +43,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.io.File;
 import java.io.IOException;
@@ -346,10 +347,11 @@ public class TedBottomPicker extends BottomSheetDialogFragment {
             Glide.with(getActivity())
                     .load(uri)
                     .thumbnail(0.1f)
-                    .dontAnimate()
-                    .centerCrop()
-                    .placeholder(R.drawable.ic_gallery)
-                    .error(R.drawable.img_error)
+                    .apply(new RequestOptions()
+                            .placeholder(R.drawable.ic_gallery)
+                            .error(R.drawable.img_error)
+                            .centerCrop()
+                            .dontAnimate())
                     .into(thumbnail);
         } else {
             builder.imageProvider.onProvideImage(thumbnail, uri);
