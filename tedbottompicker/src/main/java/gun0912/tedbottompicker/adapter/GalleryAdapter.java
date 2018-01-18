@@ -27,6 +27,8 @@ import gun0912.tedbottompicker.TedBottomPicker;
 import gun0912.tedbottompicker.view.TedSquareFrameLayout;
 import gun0912.tedbottompicker.view.TedSquareImageView;
 
+import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
+
 /**
  * Created by TedPark on 2016. 8. 30..
  */
@@ -160,12 +162,11 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.GalleryV
             if (builder.imageProvider == null) {
                 Glide.with(context)
                         .load(uri)
-                        .thumbnail(0.1f)
                         .apply(new RequestOptions()
-                                .placeholder(R.drawable.ic_gallery)
                                 .error(R.drawable.img_error)
                                 .centerCrop()
                                 .dontAnimate())
+                        .transition(withCrossFade())
                         .into(holder.iv_thumbnail);
             } else {
                 builder.imageProvider.onProvideImage(holder.iv_thumbnail, uri);

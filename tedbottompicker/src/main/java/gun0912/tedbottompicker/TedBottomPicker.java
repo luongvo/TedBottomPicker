@@ -58,6 +58,8 @@ import java.util.Locale;
 import gun0912.tedbottompicker.adapter.GalleryAdapter;
 import gun0912.tedbottompicker.util.RealPathUtil;
 
+import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
+
 public class TedBottomPicker extends BottomSheetDialogFragment {
 
     public static final String TAG = "TedBottomPicker";
@@ -346,12 +348,11 @@ public class TedBottomPicker extends BottomSheetDialogFragment {
         if (builder.imageProvider == null) {
             Glide.with(getActivity())
                     .load(uri)
-                    .thumbnail(0.1f)
                     .apply(new RequestOptions()
-                            .placeholder(R.drawable.ic_gallery)
                             .error(R.drawable.img_error)
                             .centerCrop()
                             .dontAnimate())
+                    .transition(withCrossFade())
                     .into(thumbnail);
         } else {
             builder.imageProvider.onProvideImage(thumbnail, uri);
